@@ -176,7 +176,7 @@ def conv_2d_3d(img):
     arr[:,:,2] = img
     return arr
 
-folder_path = "./Data/Reg"
+folder_path = "./Data/Reg/"
 for counter, file_path in enumerate(dcm_files):
     metacrop_arr = metacrop(pd.read_file(file_path))
     blur_arr = gaussian_blur(metacrop_arr, 15)
@@ -186,8 +186,8 @@ for counter, file_path in enumerate(dcm_files):
     #denoise_arr = denoising(clahe_arr)
     #flip_edge_arr = flip(canny_arr)
     flip_arr = flip(clahe_arr)
-    np.save(file_path+".npy", clahe_arr)
-    np.save(file_path+"rev.npy", flip_arr)
+    np.save(folder_path + file_path.split("/")[-1][:-4]+".npy", clahe_arr)
+    np.save(folder_path + file_path.split("/")[-1][:-4]+"rev.npy", flip_arr)
     #np.save(file_path+"edge.npy", canny_arr)
     #np.save(file_path+"edgerev.npy", flip_edge_arr)
     
