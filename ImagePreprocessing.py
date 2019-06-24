@@ -178,7 +178,7 @@ def conv_2d_3d(img):
 
 folder_path = "./Data/Reg"
 for counter, file_path in enumerate(dcm_files):
-    metacrop_arr = metacrop(pd.readdcm(file_path))
+    metacrop_arr = metacrop(pd.read_file(file_path))
     blur_arr = gaussian_blur(metacrop_arr, 15)
     clahe_arr = clahe(blur_arr)
     #canny_arr_2d = canny(clahe_arr[:,:,0], 1.5)
