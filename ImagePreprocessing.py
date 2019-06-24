@@ -10,7 +10,7 @@ import skimage.exposure as exposure
 import os
 
 work_dir = './Data/Raw'
-dcm_files = [pd.read_file(os.path.join(work_dir,file_path)) for file_path in os.listdir(work_dir)]
+dcm_files = [os.path.join(work_dir,file_path) for file_path in os.listdir(work_dir)]
 
 '''
 Cropping by Metadata
@@ -177,8 +177,8 @@ def conv_2d_3d(img):
     return arr
 
 folder_path = "./Data/Reg"
-for counter, dcm in enumerate(dcm_files):
-    metacrop_arr = metacrop(dcm)
+for counter, file_path in enumerate(dcm_files):
+    metacrop_arr = metacrop(pd.readdcm(file_path))
     blur_arr = gaussian_blur(metacrop_arr, 15)
     clahe_arr = clahe(blur_arr)
     #canny_arr_2d = canny(clahe_arr[:,:,0], 1.5)
@@ -186,7 +186,6 @@ for counter, dcm in enumerate(dcm_files):
     #denoise_arr = denoising(clahe_arr)
     #flip_edge_arr = flip(canny_arr)
     flip_arr = flip(clahe_arr)
-    file_path = os.path.join(folder_path, str(counter))
     np.save(file_path+".npy", clahe_arr)
     np.save(file_path+"rev.npy", flip_arr)
     #np.save(file_path+"edge.npy", canny_arr)
