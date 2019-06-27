@@ -32,10 +32,11 @@ for fn in  glob.iglob(os.path.join("/data3/wv2019/data/processed/", "*", "*", "*
     if(magic.from_file(fn) != 'DICOM medical imaging data'):
         continue
     metacrop_arr = colorcrop2(pd.read_file(fn).pixel_array)
-    sobel_img = skimage.filters.sobel(metacrop_arr[:,:,0])
-    scaler = 11
+	smooth_img = filters.gaussian(img, 15)
+    sobel_img = skimage.filters.sobel(smooth_img[:,:,0])
+    scaler = 10
     hog, hog_image = skimage.feature.hog(skimage.transform.rescale(sobel_img, 1/scaler), orientations=9, visualize=True, multichannel = False)
-    while(hog.shape[0] == 486):
+    while(hog.shape[0] != 324):
         scaler += 1
         hog, hog_image = skimage.feature.hog(skimage.transform.rescale(sobel_img, 1/scaler), orientations=9, visualize=True, multichannel = False)
     X_red = pca.transform(np.array([hog]))

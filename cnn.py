@@ -29,13 +29,9 @@ classifier = Sequential()
 classifier.add(Conv2D(64, (5, 5), input_shape = (256, 256, 1), activation = 'relu'))
 classifier.add(Dropout(0.2))
 classifier.add(MaxPooling2D(pool_size = (4, 4)))
-
 classifier.add(Conv2D(32, (3, 3), activation = 'relu'))
 classifier.add(Dropout(0.2))
 classifier.add(MaxPooling2D(pool_size = (4, 4)))
-
-
-
 classifier.add(Flatten())
 classifier.add(Dense(units = 128, activation = 'relu'))
 classifier.add(Dropout(0.3))
@@ -80,6 +76,6 @@ history = classifier.fit(Xtr, ytr,
                batch_size = 8,
                validation_data = (Xts, yts))
 classifier.evaluate(Xts, yts)
-classifier.save("Models/Keras/Test2/model2.h5")
+classifier.save("Models/Keras/Test2/model.h5")
 import pickle as pickle
-pickle.dump(history, open("Models/Keras/Test2/history2.pkl", "wb"))
+pickle.dump(history, open("Models/Keras/Test2/history.pkl", "wb"))
