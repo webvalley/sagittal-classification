@@ -9,8 +9,6 @@ import skimage.restoration as restoration
 import skimage.exposure as exposure
 import os
 
-work_dir = './Data/Raw'
-dcm_files = [os.path.join(work_dir,file_path) for file_path in os.listdir(work_dir)]
 
 '''
 Cropping by Metadata
@@ -176,18 +174,20 @@ def conv_2d_3d(img):
     arr[:,:,2] = img
     return arr
 
-folder_path = "./Data/Reg/"
+input_folder_path = "./Data/Actual0/"
+output_folder_path = "./Data/Processed0/"
+dcm_files = [os.path.join(input_folder_path,file_path) for file_path in os.listdir(input_folder_path)]
 for counter, file_path in enumerate(dcm_files):
-    metacrop_arr = metacrop(pd.read_file(file_path))
-    blur_arr = gaussian_blur(metacrop_arr, 15)
-    clahe_arr = clahe(blur_arr)
+    metacrop_arr = colorcrop2(pd.read_file(file_path).pixel_array)
+    #blur_arr = gaussian_blur(metacrop_arr, 15)
+    #clahe_arr = clahe(blur_arr)
     #canny_arr_2d = canny(clahe_arr[:,:,0], 1.5)
     #canny_arr = conv_2d_3d(canny_arr_2d)
     #denoise_arr = denoising(clahe_arr)
     #flip_edge_arr = flip(canny_arr)
-    flip_arr = flip(clahe_arr)
-    np.save(folder_path + file_path.split("/")[-1][:-4]+".npy", clahe_arr)
-    np.save(folder_path + file_path.split("/")[-1][:-4]+"rev.npy", flip_arr)
+    flip_arr = flip(metacrop_arr)
+    np.save(output_folder_path + file_path.split("/")[-1][:-4]+".npy", metacrop_arr)
+    np.save(output_folder_path + file_path.split("/")[-1][:-4]+"rev.npy", flip_arr)
     #np.save(file_path+"edge.npy", canny_arr)
     #np.save(file_path+"edgerev.npy", flip_edge_arr)
     
