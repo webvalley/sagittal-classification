@@ -8,7 +8,7 @@ from keras.models import load_model
 import pydicom as pd
 import skimage 
 os.environ["CUDA_VISIBLE_DEVICES"] = "4"
-model = load_model("Models/Keras/model_even_better.h5")
+model = load_model("Models/Keras/model_better.h5")
 
 for fn in glob.iglob(os.path.join("/data3/wv2019/data/processed/", "*", "*", "*"), recursive=True):
     if(os.path.isdir(fn)):
